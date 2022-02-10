@@ -36,12 +36,15 @@ class Projectile {
         c.fillStyle = this.color
         c.fill()
     }
-
+    
     update() {
         this.draw()
         this.x = this.x + this.velocity.x
         this.y = this.y + this.velocity.y
+
     }
+
+    
 }
 
 const x = canvas.width / 2
@@ -54,14 +57,29 @@ const projectiles = []
 
 function animate() {
     requestAnimationFrame(animate)
-    projectiles.forEach(Projectile =>{
-        Projectile.update()
+    projectiles.forEach(projectile =>{
+        projectile.update()
+
     })
 }
 
 
 addEventListener('click', (event) => {
-    
+    const angle = Math.atan2(event.clientY - canvas.height / 2,
+        event.clientX - canvas.width / 2
+    )
+
+    const velocity = {
+        x: Math.cos(angle) ,
+        y: Math.sin(angle)
+    }
+
+    projectiles.push(new Projectile(
+        canvas.width / 2,  canvas.height / 2,
+        5,
+        'red', velocity)
+    )
+   
 })
 
 animate()
